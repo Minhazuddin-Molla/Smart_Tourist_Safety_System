@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Tourist Safety System</title>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+    <div class="login-dropdown animate__animated animate__fadeIn">
+        <button class="dropbtn">Login</button>
+        <div class="dropdown-content">
+            <a href="{% url 'police_login' %}">Police Login</a>
+            <a href="{% url 'tourist_login' %}">Tourist Login</a>
+        </div>
+    </div>
+
+    <header class="animate__animated animate__fadeIn">
+        <h1>Smart Tourist Safety System</h1>
+        <p class="animate__animated animate__fadeInUp animate__delay-1s">
+            Your trusted companion for safe and enjoyable travel experiences
+        </p>
+    </header>
+
+    <div class="container animate__animated animate__fadeInUp animate__delay-1s">
+        <h2>Welcome to Safe Travel!</h2>
+        <p>
+            Discover a smarter way to explore new destinations. Our system ensures your safety with cutting-edge features and real-time assistance.
+        </p>
+        
+        <div class="features">
+            <div class="feature" onclick="this.classList.toggle('active')">
+                <h3>Real-Time Safety Alerts</h3>
+                <p>Stay informed with instant notifications about local conditions and security updates.</p>
+            </div>
+            <div class="feature" onclick="this.classList.toggle('active')">
+                <h3>Emergency Assistance</h3>
+                <p>Quick access to emergency services and local authorities when you need them most.</p>
+            </div>
+            <div class="feature" onclick="this.classList.toggle('active')">
+                <h3>Safe Route Guidance</h3>
+                <p>Navigate confidently with AI-powered route recommendations and safety insights.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add intersection observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.feature').forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tourist Safety App</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Anime.js for SOS button animation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="header-row">
+      <div class="dropdowns">
+        <a href="login.html" class="settings-logo" id="settingsIcon" title="Profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#2563eb" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4c0 .7.5 1.2 1.2 1.2h16.8c.7 0 1.2-.5 1.2-1.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+        </a>
+      </div>
+      <div id="dropdownContent" class="dropdown-content" style="display:none;">
+        <button id="closeSidebar" style="align-self:flex-end;font-size:1.5rem;background:none;border:none;color:#2563eb;cursor:pointer;margin-bottom:10px;">&times;</button>
+        <select id="languageDropdown" onchange="setLanguage(this.value)">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="bn">Bengali</option>
+        </select>
+        <select id="quickMenu" onchange="handleQuickMenu(this.value)">
+          <option value="">Menu</option>
+          <option value="profile">View Profile</option>
+          <option value="help">Help</option>
+          <option value="about">About</option>
+        </select>
+      </div>
+      <h1 style="margin:0 auto;">🧭 Tourist Safety App</h1>
+      <button id="sosBtn" class="btn btn-danger animated-sos sos-navbar-btn">🚨 SOS</button>
+    <div id="sosDebug" style="color:orange; font-size:0.9em;"></div>
+    </div>
+  </header>
+
+
+  <main class="main-yt">
+    <div class="map-yt">
+      <div id="map"></div>
+    </div>
+    <aside class="sidebar-comments">
+      <div class="card shadow p-3 mb-4">
+        <div class="safety-score-card mb-4 d-flex flex-column align-items-center justify-content-center">
+          <div class="d-flex align-items-center justify-content-center mb-2">
+            <div class="score-progress">
+              <svg width="0" height="0">
+                <defs>
+                  <linearGradient id="scoreGradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#388e3c"/>
+                    <stop offset="100%" stop-color="#81c784"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <svg width="110" height="110" class="score-svg">
+                <circle cx="55" cy="55" r="44" stroke="#e0e0e0" stroke-width="10" fill="none" />
+                <circle id="scoreCircle" cx="55" cy="55" r="44" stroke="url(#scoreGradient)" stroke-width="10" fill="none" stroke-linecap="round" />
+                <text id="scoreText" x="55" y="68" text-anchor="middle" font-size="2.4rem" fill="#388e3c">100</text>
+              </svg>
+            </div>
+            <div class="score-label ms-4">
+              <h2 class="text-success mb-0">Safety Score</h2>
+            </div>
+          </div>
+          <div id="scoreStatus" class="score-status-label mt-2 text-center"></div>
+        </div>
+        <h3 class="text-primary">Past Journeys</h3>
+        <div id="timelineTickets" class="timeline-tickets mb-3"></div>
+        <h3 class="text-primary">Chat with Police</h3>
+        <div class="chat mb-2">
+          <div id="chatBox" class="mb-2"></div>
+          <div class="input-group">
+            <input type="text" id="chatInput" class="form-control" placeholder="Type your message...">
+            <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+
+  <footer class="bg-light text-center py-3 mt-4">
+    <small>© 2025 Tourist Safety Hackathon Demo</small>
+  </footer>
+
+  <script>
+    function handleQuickMenu(val) {
+      if (val === "profile") {
+        alert("Profile: Tourist Name, ID, etc. (Demo)");
+      } else if (val === "help") {
+        alert("Help: For emergencies, press SOS. For other queries, contact support.");
+      } else if (val === "about") {
+        alert("Tourist Safety App v1.0. Created for Hackathon 2025.");
+      }
+      document.getElementById('quickMenu').value = "";
+    }
+  </script>
+
+  <script src="app.js"></script>
+  <script>
+    // Hamburger dropdown toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      var hamburger = document.getElementById('hamburgerMenu');
+      var dropdown = document.getElementById('dropdownContent');
+      var closeSidebar = document.getElementById('closeSidebar');
+      hamburger.onclick = function(e) {
+        e.stopPropagation();
+        dropdown.style.display = dropdown.style.display === 'none' ? 'flex' : 'none';
+      };
+      closeSidebar.onclick = function() {
+        dropdown.style.display = 'none';
+      };
+      document.addEventListener('click', function(e) {
+        if (!hamburger.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.style.display = 'none';
+        }
+      });
+    });
+  </script>
+  <script>
+    // Professional pulse animation for SOS button using anime.js
+    document.addEventListener('DOMContentLoaded', function() {
+      anime({
+        targets: '.sos-navbar-btn',
+        scale: [1, 1.08, 1],
+        boxShadow: [
+          '0 6px 24px rgba(239,68,68,0.18)',
+          '0 12px 32px rgba(239,68,68,0.22)',
+          '0 6px 24px rgba(239,68,68,0.18)'
+        ],
+        duration: 1200,
+        easing: 'easeInOutSine',
+        loop: true
+      });
+    });
+  </script>
+</body>
+</html>

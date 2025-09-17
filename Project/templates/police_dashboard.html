@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Police Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <header>
+    <h1>🚓 Police Dashboard</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>🚨 Incoming Alerts</h2>
+      <ul id="alertsList"></ul>
+    </section>
+
+    <section>
+    <div id="alertsDebug" style="color:orange; font-size:0.9em;"></div>
+      <h2>💬 Chat with Tourist</h2>
+      <div class="chat">
+        <div id="chatBox"></div>
+        <input type="text" id="chatInput" placeholder="Type a reply...">
+        <button onclick="sendReply()">Send</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="dashboard.js"></script>
+  <!-- Existing dashboard content -->
+  <h2>SOS Location</h2>
+  <div id="sos-coordinates">Coordinates: N/A</div>
+  <div id="map" style="height: 400px; width: 100%; margin-top: 10px;"></div>
+  <div id="sos-message" style="margin-top:10px;color:red;font-weight:bold;"></div>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</body>
